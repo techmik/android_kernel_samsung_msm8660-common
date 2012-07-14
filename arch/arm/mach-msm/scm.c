@@ -167,6 +167,8 @@ static u32 smc(u32 cmd_addr)
 	register u32 r0 asm("r0") = 1;
 	register u32 r1 asm("r1") = (u32)&context_id;
 	register u32 r2 asm("r2") = cmd_addr;
+	r0 = SCM_EOPNOTSUPP;
+/*
 	do {
 		asm volatile(
 			__asmeq("%0", "r0")
@@ -178,6 +180,7 @@ static u32 smc(u32 cmd_addr)
 			: "r" (r0), "r" (r1), "r" (r2)
 			: "r3");
 	} while (r0 == SCM_INTERRUPTED);
+*/
 
 	return r0;
 }
@@ -289,6 +292,8 @@ s32 scm_call_atomic1(u32 svc, u32 cmd, u32 arg1)
 	register u32 r1 asm("r1") = (u32)&context_id;
 	register u32 r2 asm("r2") = arg1;
 
+	r0 = SCM_EOPNOTSUPP;
+/*
 	asm volatile(
 		__asmeq("%0", "r0")
 		__asmeq("%1", "r0")
@@ -298,6 +303,7 @@ s32 scm_call_atomic1(u32 svc, u32 cmd, u32 arg1)
 		: "=r" (r0)
 		: "r" (r0), "r" (r1), "r" (r2)
 		: "r3");
+*/
 	return r0;
 }
 EXPORT_SYMBOL(scm_call_atomic1);
@@ -320,6 +326,8 @@ s32 scm_call_atomic2(u32 svc, u32 cmd, u32 arg1, u32 arg2)
 	register u32 r2 asm("r2") = arg1;
 	register u32 r3 asm("r3") = arg2;
 
+	r0 = SCM_EOPNOTSUPP;
+/*
 	asm volatile(
 		__asmeq("%0", "r0")
 		__asmeq("%1", "r0")
@@ -329,6 +337,7 @@ s32 scm_call_atomic2(u32 svc, u32 cmd, u32 arg1, u32 arg2)
 		"smc	#0	@ switch to secure world\n"
 		: "=r" (r0)
 		: "r" (r0), "r" (r1), "r" (r2), "r" (r3));
+*/
 	return r0;
 }
 EXPORT_SYMBOL(scm_call_atomic2);
@@ -345,6 +354,8 @@ s32 scm_call_atomic4_3(u32 svc, u32 cmd, u32 arg1, u32 arg2,
 	register u32 r4 asm("r4") = arg3;
 	register u32 r5 asm("r5") = arg4;
 
+	r0 = SCM_EOPNOTSUPP;
+/*
 	asm volatile(
 		__asmeq("%0", "r0")
 		__asmeq("%1", "r1")
@@ -361,6 +372,7 @@ s32 scm_call_atomic4_3(u32 svc, u32 cmd, u32 arg1, u32 arg2,
 		*ret1 = r1;
 	if (ret2)
 		*ret2 = r2;
+*/
 	return r0;
 }
 EXPORT_SYMBOL(scm_call_atomic4_3);
@@ -379,6 +391,7 @@ u32 scm_get_version(void)
 
 	r0 = 0x1 << 8;
 	r1 = (u32)&context_id;
+/*
 	do {
 		asm volatile(
 			__asmeq("%0", "r0")
@@ -390,6 +403,8 @@ u32 scm_get_version(void)
 			: "r" (r0), "r" (r1)
 			: "r2", "r3");
 	} while (r0 == SCM_INTERRUPTED);
+*/
+	r1 = SCM_EOPNOTSUPP;
 
 	version = r1;
 	mutex_unlock(&scm_lock);
